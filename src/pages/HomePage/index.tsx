@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NewNoteButton from '../../components/NewNoteButton';
+import database from '../../services/database';
 import {
 	NotesArea,
 	NoteContainer,
@@ -11,9 +13,12 @@ import {
 import { Note } from '../../types';
 
 export default function NotesPage(): React.ReactElement {
-	const [notes] = useState<Note[]>([
-		{ id: 1, title: 'teste', content: 'teste' }
-	]);
+	const navigate = useNavigate();
+	const [notes, setNotes] = useState<Note[]>([]);
+
+	useEffect(() => {
+		database.getNotes().then(setNotes);
+	}, []);
 
 	function _renderEmptyComponent() {
 		return (
@@ -28,7 +33,10 @@ export default function NotesPage(): React.ReactElement {
 
 	function _renderNote(item: Note): React.ReactElement {
 		return (
-			<NoteContainer>
+			<NoteContainer
+				key={item.id}
+				onClick={() => navigate(`edition-page/${item.id}`)}
+			>
 				<NoteTitle>{item.title}</NoteTitle>
 				<NoteContent>{item.content}</NoteContent>
 			</NoteContainer>

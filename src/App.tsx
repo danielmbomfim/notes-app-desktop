@@ -1,11 +1,12 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import EditionPage from './pages/EditionPage';
+import NewNotePage from './pages/NewNotesPage';
 import {
 	DefaultTheme,
 	ThemeProvider,
 	createGlobalStyle
 } from 'styled-components';
-import NewNotePage from './pages/NewNotesPage';
 
 const appTheme: DefaultTheme = {
 	primary: '#344955',
@@ -25,7 +26,8 @@ const GlobalStyle = createGlobalStyle`
 
 const router = createBrowserRouter([
 	{ path: '/', Component: HomePage },
-	{ path: '/new-notes-page', Component: NewNotePage }
+	{ path: '/new-notes-page', Component: NewNotePage },
+	{ path: '/edition-page/:id', Component: EditionPage }
 ]);
 
 export default function App() {

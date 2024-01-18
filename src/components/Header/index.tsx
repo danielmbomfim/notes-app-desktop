@@ -5,13 +5,24 @@ import { HeaderProps } from '../../types';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from 'styled-components';
 
-export default function Header({ title }: HeaderProps): React.ReactElement {
+export default function Header({
+	title,
+	onGoBack
+}: HeaderProps): React.ReactElement {
 	const navigate = useNavigate();
 	const theme = useTheme();
 
+	function goBack() {
+		if (onGoBack) {
+			onGoBack();
+		}
+
+		navigate('/');
+	}
+
 	return (
 		<Container>
-			<Button onClick={() => navigate('/')}>
+			<Button onClick={goBack}>
 				<FontAwesomeIcon
 					icon={faArrowLeft}
 					size="lg"
