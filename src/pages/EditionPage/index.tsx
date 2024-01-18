@@ -1,34 +1,53 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import database from '../../services/database';
-import { EditionPageParams } from '../../types';
+import { EditionPageParams, PopoverOption } from '../../types';
 import { Container, TitleInput, ContentInput } from './styles';
 
 export default function EditionPage(): React.ReactElement {
-	const params = useParams<EditionPageParams>();
+	const { id: noteId } = useParams<EditionPageParams>();
+	const navigate = useNavigate();
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
-	console.log(title, content);
+	const menuOptions: PopoverOption[] = [
+		{
+			label: 'Salvar alterações',
+			action: updateNote
+		},
+		{
+			label: 'Deletar anotação',
+			action: removeNote
+		}
+	];
 
 	useEffect(() => {
-		database.getNote(parseInt(params.id as string)).then((note) => {
+		database.getNote(parseInt(noteId as string)).then((note) => {
 			setTitle(note.title);
 			setContent(note.content);
 		});
-	}, [params.id]);
+	}, [noteId]);
 
 	function updateNote() {
 		database.updateNote({
-			id: parseInt(params.id as string),
+			id: parseInt(noteId as string),
 			title,
 			content
 		});
 	}
 
+	function removeNote() {
+		database.deleteNote(parseInt(noteId as string));
+		navigate('/');
+	}
+
 	return (
 		<>
-			<Header title="Editar anotação" onGoBack={updateNote} />
+			<Header
+				title="Editar anotação"
+				onGoBack={updateNote}
+				options={menuOptions}
+			/>
 			<Container>
 				<TitleInput
 					placeholder="Título"

@@ -4,10 +4,12 @@ import { Button, Container } from './styles';
 import { HeaderProps } from '../../types';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from 'styled-components';
+import Popover from '../Popover';
 
 export default function Header({
 	title,
-	onGoBack
+	onGoBack,
+	options
 }: HeaderProps): React.ReactElement {
 	const navigate = useNavigate();
 	const theme = useTheme();
@@ -30,6 +32,7 @@ export default function Header({
 				/>
 			</Button>
 			{title}
+			<Popover options={options || []} />
 		</Container>
 	);
 }

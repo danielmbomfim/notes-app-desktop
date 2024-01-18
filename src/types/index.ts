@@ -12,16 +12,26 @@ export interface NoteDraft {
 export interface HeaderProps {
 	title: string;
 	onGoBack?: () => void;
-	options?: { label: string; action: string }[];
+	options?: PopoverOption[];
 }
 
 export type EditionPageParams = {
 	id: string;
 };
 
+export interface PopoverProps {
+	options: PopoverOption[];
+}
+
+export interface PopoverOption {
+	label: string;
+	action: () => void;
+}
+
 export interface NotesProvider {
 	createNote: (data: NoteDraft) => Promise<Note>;
 	updateNote: (note: Note) => Promise<Note>;
 	getNote: (id: number) => Promise<Note>;
 	getNotes: () => Promise<Note[]>;
+	deleteNote: (id: number) => Promise<void>;
 }

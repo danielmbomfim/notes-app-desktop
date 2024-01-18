@@ -28,6 +28,10 @@ class FakeDatabaseService implements NotesProvider {
 	async getNotes() {
 		return [...this.notes];
 	}
+
+	async deleteNote(id: number) {
+		this.notes = this.notes.filter((note) => note.id !== id);
+	}
 }
 
 export default new FakeDatabaseService();
