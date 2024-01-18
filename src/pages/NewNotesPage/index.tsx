@@ -28,6 +28,7 @@ export default function NewNotePage(): React.ReactElement {
 		}
 
 		database.createNote({ title, content });
+		navigate('/');
 	}
 
 	return (
