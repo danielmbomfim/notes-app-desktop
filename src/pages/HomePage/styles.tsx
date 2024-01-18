@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const NotesArea = styled.section`
 	display: grid;
-	grid-template-columns: repeat(auto-fill, 400px);
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	margin: 5px;
 `;
 
 export const NoteContainer = styled.article`
@@ -34,6 +35,7 @@ export const EmptyListContainer = styled.section`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
 	gap: 5px;
 	margin-top: 40px;
 `;
