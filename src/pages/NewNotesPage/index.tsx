@@ -23,6 +23,10 @@ export default function NewNotePage(): React.ReactElement {
 	];
 
 	function saveData() {
+		if (!title && !content) {
+			return;
+		}
+
 		database.createNote({ title, content });
 	}
 
