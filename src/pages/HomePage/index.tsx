@@ -46,11 +46,10 @@ export default function NotesPage(): React.ReactElement {
 
 	return (
 		<main>
-			<NotesArea>
-				{notes.length === 0
-					? _renderEmptyComponent()
-					: notes.map(_renderNote)}
-			</NotesArea>
+			{notes.length === 0 && _renderEmptyComponent()}
+			{notes.length !== 0 && (
+				<NotesArea>{notes.map(_renderNote)}</NotesArea>
+			)}
 			<FixedButton
 				icon={faPlus}
 				onClick={() => navigate('/new-notes-page')}
