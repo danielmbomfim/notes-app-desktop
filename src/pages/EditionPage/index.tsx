@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import database from '../../services/database';
 import { EditionPageParams, PopoverOption } from '../../types';
-import { Container, TitleInput, ContentInput } from './styles';
+import { Container, InputsArea, TitleInput, ContentInput } from './styles';
 
 export default function EditionPage(): React.ReactElement {
 	const { id: noteId } = useParams<EditionPageParams>();
@@ -42,13 +42,13 @@ export default function EditionPage(): React.ReactElement {
 	}
 
 	return (
-		<>
+		<Container>
 			<Header
 				title="Editar anotação"
 				onGoBack={updateNote}
 				options={menuOptions}
 			/>
-			<Container>
+			<InputsArea>
 				<TitleInput
 					placeholder="Título"
 					value={title}
@@ -59,7 +59,7 @@ export default function EditionPage(): React.ReactElement {
 					value={content}
 					onChange={(evt) => setContent(evt.target.value)}
 				/>
-			</Container>
-		</>
+			</InputsArea>
+		</Container>
 	);
 }

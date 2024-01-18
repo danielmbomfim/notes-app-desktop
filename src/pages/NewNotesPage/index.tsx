@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import database from '../../services/database';
-import { Container, TitleInput, ContentInput } from './styles';
+import { Container, InputsArea, TitleInput, ContentInput } from './styles';
 import { PopoverOption } from '../../types';
 
 export default function NewNotePage(): React.ReactElement {
@@ -25,13 +25,13 @@ export default function NewNotePage(): React.ReactElement {
 	}
 
 	return (
-		<>
+		<Container>
 			<Header
 				title="Nova anotação"
 				onGoBack={saveData}
 				options={menuOptions}
 			/>
-			<Container>
+			<InputsArea>
 				<TitleInput
 					placeholder="Título"
 					value={title}
@@ -42,7 +42,7 @@ export default function NewNotePage(): React.ReactElement {
 					value={content}
 					onChange={(evt) => setContent(evt.target.value)}
 				/>
-			</Container>
-		</>
+			</InputsArea>
+		</Container>
 	);
 }

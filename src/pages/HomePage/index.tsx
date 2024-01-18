@@ -44,13 +44,13 @@ export default function NotesPage(): React.ReactElement {
 	}
 
 	return (
-		<>
+		<main>
 			<NotesArea>
 				{notes.length === 0
 					? _renderEmptyComponent()
 					: notes.map(_renderNote)}
 			</NotesArea>
 			<NewNoteButton />
-		</>
+		</main>
 	);
 }

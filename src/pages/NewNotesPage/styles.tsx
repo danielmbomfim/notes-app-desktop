@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.section`
+export const Container = styled.main`
 	display: flex;
 	flex-direction: column;
-	background-color: ${(props) => props.theme.secondary};
 	height: 100vh;
+`;
+
+export const InputsArea = styled.section`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	background-color: ${(props) => props.theme.secondary};
 `;
 
 export const TitleInput = styled.input.attrs({
