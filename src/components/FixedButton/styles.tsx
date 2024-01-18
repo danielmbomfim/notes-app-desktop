@@ -5,11 +5,10 @@ export const Container = styled.button`
 	position: absolute;
 	justify-content: center;
 	align-items: center;
-	right: 20px;
-	bottom: 15px;
+	right: 25px;
+	bottom: 25px;
 	width: 60px;
 	height: 60px;
 	background-color: ${(props) => props.theme.alert};
 	border-radius: 40px;
-	elevation: 3;
 `;

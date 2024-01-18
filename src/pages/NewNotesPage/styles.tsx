@@ -10,7 +10,10 @@ export const InputsArea = styled.section`
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	margin: 15px;
+	padding: 10px;
 	background-color: ${(props) => props.theme.secondary};
+	border-radius: 8px;
 `;
 
 export const TitleInput = styled.input.attrs({

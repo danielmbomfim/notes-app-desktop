@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
 import database from '../../services/database';
 import { Container, InputsArea, TitleInput, ContentInput } from './styles';
 import { PopoverOption } from '../../types';
+import FixedButton from '../../components/FixedButton';
 
 export default function NewNotePage(): React.ReactElement {
 	const navigate = useNavigate();
@@ -43,6 +45,7 @@ export default function NewNotePage(): React.ReactElement {
 					onChange={(evt) => setContent(evt.target.value)}
 				/>
 			</InputsArea>
+			<FixedButton icon={faCheck} onClick={saveData} />
 		</Container>
 	);
 }

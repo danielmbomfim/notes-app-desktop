@@ -1,3 +1,5 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 export interface Note {
 	id: number;
 	title: string;
@@ -34,4 +36,9 @@ export interface NotesProvider {
 	getNote: (id: number) => Promise<Note>;
 	getNotes: () => Promise<Note[]>;
 	deleteNote: (id: number) => Promise<void>;
+}
+
+export interface FixedButtonProps {
+	onClick: () => void;
+	icon: IconProp;
 }

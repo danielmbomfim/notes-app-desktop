@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NewNoteButton from '../../components/NewNoteButton';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import FixedButton from '../../components/FixedButton';
 import database from '../../services/database';
 import {
 	NotesArea,
@@ -50,7 +51,10 @@ export default function NotesPage(): React.ReactElement {
 					? _renderEmptyComponent()
 					: notes.map(_renderNote)}
 			</NotesArea>
-			<NewNoteButton />
+			<FixedButton
+				icon={faPlus}
+				onClick={() => navigate('/new-notes-page')}
+			/>
 		</main>
 	);
 }

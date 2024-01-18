@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
 import database from '../../services/database';
 import { EditionPageParams, PopoverOption } from '../../types';
 import { Container, InputsArea, TitleInput, ContentInput } from './styles';
+import FixedButton from '../../components/FixedButton';
 
 export default function EditionPage(): React.ReactElement {
 	const { id: noteId } = useParams<EditionPageParams>();
@@ -60,6 +62,7 @@ export default function EditionPage(): React.ReactElement {
 					onChange={(evt) => setContent(evt.target.value)}
 				/>
 			</InputsArea>
+			<FixedButton icon={faCheck} onClick={updateNote} />
 		</Container>
 	);
 }
