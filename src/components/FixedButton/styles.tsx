@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.button`
 	border: none;
-	position: absolute;
+	position: fixed;
 	justify-content: center;
 	align-items: center;
 	right: 25px;
