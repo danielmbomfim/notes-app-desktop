@@ -33,7 +33,7 @@ export default function EditionPage(): React.ReactElement {
 	function updateNote() {
 		database.updateNote({
 			id: parseInt(noteId as string),
-			title: !title && !content ? 'Rascunho' : title,
+			title,
 			content
 		});
 	}

@@ -33,7 +33,7 @@ export default function Popover({ options }: PopoverProps): React.ReactElement {
 
 	return (
 		<Trigger
-			visible={options.length > 0}
+			$visible={options.length > 0}
 			ref={triggerRef}
 			onClick={() => setVisible(!visible)}
 		>

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const Trigger = styled.button<{ visible: boolean }>`
+export const Trigger = styled.button<{ $visible: boolean }>`
 	position: relative;
 	background-color: transparent;
 	border: none;
 	margin: 10px;
 	margin-left: auto;
 	padding: 5px 15px;
-	display: ${(props) => (props.visible ? 'initial' : 'none')};
+	display: ${(props) => (props.$visible ? 'initial' : 'none')};
 `;
 
 export const UserOptionsContainer = styled.div`

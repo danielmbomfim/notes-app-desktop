@@ -38,7 +38,7 @@ export default function NotesPage(): React.ReactElement {
 				key={item.id}
 				onClick={() => navigate(`edition-page/${item.id}`)}
 			>
-				<NoteTitle>{item.title}</NoteTitle>
+				<NoteTitle>{item.title || 'Rascunho'}</NoteTitle>
 				<NoteContent>{item.content}</NoteContent>
 			</NoteContainer>
 		);
