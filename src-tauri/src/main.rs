@@ -1,15 +1,24 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+mod database;
+mod model;
+mod schema;
+
+use database::note::{create_note, delete_note, get_note, get_notes, update_note};
+use model::{get_connection_pool, DatabaseManager};
 
 fn main() {
+    let pool = get_connection_pool();
+
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            get_notes,
+            get_note,
+            create_note,
+            update_note,
+            delete_note,
+        ])
+        .manage(DatabaseManager::new(pool))
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

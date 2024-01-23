@@ -1,37 +1,34 @@
+import { invoke } from '@tauri-apps/api/tauri';
 import { Note, NoteDraft, NotesProvider } from '../types';
 
-class FakeDatabaseService implements NotesProvider {
-	private notes: Note[] = [{ id: 1, title: 'teste', content: 'teste' }];
-
+class DatabaseService implements NotesProvider {
 	async createNote(data: NoteDraft) {
-		const note = { id: new Date().getTime(), ...data };
-		this.notes.push(note);
+		const note = await invoke<Note>('create_note', { ...data });
 
 		return note;
 	}
 
 	async updateNote(note: Note) {
-		const [target] = this.notes.filter((n) => n.id === note.id);
+		const updatedNote = await invoke<Note>('update_note', { ...note });
 
-		target.title = note.title;
-		target.content = note.content;
-
-		return note;
+		return updatedNote;
 	}
 
 	async getNote(id: number) {
-		const [note] = this.notes.filter((n) => n.id === id);
+		const note = await invoke<Note>('get_note', { id });
 
 		return note;
 	}
 
 	async getNotes() {
-		return [...this.notes];
+		const notes = await invoke<Note[]>('get_notes');
+
+		return notes;
 	}
 
 	async deleteNote(id: number) {
-		this.notes = this.notes.filter((note) => note.id !== id);
+		await invoke<void>('delete_note', { id });
 	}
 }
 
-export default new FakeDatabaseService();
+export default new DatabaseService();
