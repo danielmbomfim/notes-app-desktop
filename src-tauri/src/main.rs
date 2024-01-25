@@ -8,7 +8,10 @@ use std::{ffi::OsString, fs::create_dir, io::Error, path::Path};
 
 use database::note::{create_note, delete_note, get_note, get_notes, update_note};
 use model::{get_connection_pool, DatabaseManager};
-use tauri::api::path::config_dir;
+use tauri::{
+    api::path::config_dir, CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu,
+    WindowEvent,
+};
 
 fn create_config_folder() -> Result<String, Error> {
     let config_dir =
@@ -26,6 +29,12 @@ fn create_config_folder() -> Result<String, Error> {
 }
 
 fn main() {
+    let tray_menu = SystemTrayMenu::new()
+        .add_item(CustomMenuItem::new("open", "Abrir"))
+        .add_item(CustomMenuItem::new("exit", "Sair"));
+
+    let system_tray = SystemTray::new().with_menu(tray_menu);
+
     let database_path =
         create_config_folder().expect("It was not possible to create the configuration directory");
 
@@ -44,7 +53,28 @@ fn main() {
             update_note,
             delete_note,
         ])
+        .system_tray(system_tray)
+        .on_system_tray_event(|app, event| match event {
+            SystemTrayEvent::MenuItemClick { id, .. } => {
+                match id.as_str() {
+                    "open" => {
+                        let window = app.get_window("main").unwrap();
+                        window.show().unwrap();
+                    }
+                    "exit" => std::process::exit(0),
+                    _ => {}
+                };
+            }
+            _ => {}
+        })
         .manage(state)
+        .on_window_event(|event| match event.event() {
+            WindowEvent::CloseRequested { api, .. } => {
+                api.prevent_close();
+                event.window().hide().unwrap();
+            }
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
