@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import EditionPage from './pages/EditionPage';
 import NewNotePage from './pages/NewNotesPage';
+import { AuthProvider } from './contexts/authContext';
 import {
 	DefaultTheme,
 	ThemeProvider,
@@ -34,7 +35,9 @@ export default function App() {
 	return (
 		<ThemeProvider theme={appTheme}>
 			<GlobalStyle />
-			<RouterProvider router={router} />
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
 		</ThemeProvider>
 	);
 }

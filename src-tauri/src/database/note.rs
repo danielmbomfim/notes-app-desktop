@@ -3,13 +3,32 @@ use crate::model::{DatabaseManager, SqliteManager};
 use crate::schema::notes::dsl as note_table;
 use crate::schema::notes::dsl::notes;
 use diesel::{insert_into, prelude::*};
+use serde::Deserialize;
 use tauri::State;
 
+#[derive(Deserialize, Debug)]
+pub struct QueryParams {
+    text: Option<String>,
+}
+
 #[tauri::command]
-pub fn get_notes(state: State<DatabaseManager<SqliteManager>>) -> Result<Vec<Note>, String> {
+pub fn get_notes(
+    params: QueryParams,
+    state: State<DatabaseManager<SqliteManager>>,
+) -> Result<Vec<Note>, String> {
     let connection = &mut state.pool.get().map_err(|err| err.to_string())?;
 
-    let results = notes
+    let mut query = notes.into_boxed();
+
+    if let Some(value) = params.text {
+        query = query.filter(
+            note_table::title
+                .like(format!("{}%", value))
+                .or(note_table::content.like(format!("{}%", value))),
+        );
+    }
+
+    let results = query
         .select(Note::as_select())
         .load(connection)
         .map_err(|err| err.to_string())?;

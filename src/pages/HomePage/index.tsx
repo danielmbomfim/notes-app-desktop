@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Sidebar from '../../components/Sidebar';
 import FixedButton from '../../components/FixedButton';
 import database from '../../services/database';
 import {
+	Container,
 	NotesArea,
 	NoteContainer,
 	NoteTitle,
@@ -11,23 +13,32 @@ import {
 	EmptyListContainer,
 	EmptyListText
 } from './styles';
-import { Note } from '../../types';
+import { Note, QueryParams } from '../../types';
 
 export default function NotesPage(): React.ReactElement {
 	const navigate = useNavigate();
 	const [notes, setNotes] = useState<Note[]>([]);
+	const [searchText, setSearchText] = useState('');
 
 	useEffect(() => {
-		database.getNotes().then(setNotes);
-	}, []);
+		const settings: QueryParams = {};
+
+		if (searchText.length >= 3) {
+			settings.text = searchText;
+		}
+
+		database.getNotes(settings).then(setNotes);
+	}, [searchText]);
 
 	function _renderEmptyComponent() {
 		return (
 			<EmptyListContainer>
 				<EmptyListText>Nenhuma anotação encontrada.</EmptyListText>
-				<EmptyListText>
-					Vá em frente e escreva a sua primeira anotação
-				</EmptyListText>
+				{searchText.length === 0 && (
+					<EmptyListText>
+						Vá em frente e escreva a sua primeira anotação
+					</EmptyListText>
+				)}
 			</EmptyListContainer>
 		);
 	}
@@ -45,7 +56,10 @@ export default function NotesPage(): React.ReactElement {
 	}
 
 	return (
-		<main>
+		<Container>
+			<Sidebar
+				onSearchTextChange={(evt) => setSearchText(evt.target.value)}
+			/>
 			{notes.length === 0 && _renderEmptyComponent()}
 			{notes.length !== 0 && (
 				<NotesArea>{notes.map(_renderNote)}</NotesArea>
@@ -54,6 +68,6 @@ export default function NotesPage(): React.ReactElement {
 				icon={faPlus}
 				onClick={() => navigate('/new-notes-page')}
 			/>
-		</main>
+		</Container>
 	);
 }

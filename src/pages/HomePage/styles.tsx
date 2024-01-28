@@ -1,9 +1,18 @@
 import styled from 'styled-components';
 
+export const Container = styled.main`
+	display: flex;
+	flex-direction: row;
+	max-height: 100vh;
+	overflow: hidden;
+`;
+
 export const NotesArea = styled.section`
+	flex: 1;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 	margin: 5px;
+	overflow: auto;
 `;
 
 export const NoteContainer = styled.article`
