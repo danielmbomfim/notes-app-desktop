@@ -63,3 +63,8 @@ export interface User {
 	image: string;
 	autoSync: boolean;
 }
+
+export interface AuthenticationPayload {
+	user?: User;
+	error?: string;
+}

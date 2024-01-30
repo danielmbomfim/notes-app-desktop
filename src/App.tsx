@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import EditionPage from './pages/EditionPage';
 import NewNotePage from './pages/NewNotesPage';
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
 export default function App() {
 	return (
 		<ThemeProvider theme={appTheme}>
+			<Toaster />
 			<GlobalStyle />
 			<AuthProvider>
 				<RouterProvider router={router} />

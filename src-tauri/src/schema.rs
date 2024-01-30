@@ -7,3 +7,13 @@ diesel::table! {
         content -> Text,
     }
 }
+
+diesel::table! {
+    users (id) {
+        id -> Integer,
+        name -> Text,
+        email -> Text,
+        image -> Text,
+        google_id -> Text,
+    }
+}

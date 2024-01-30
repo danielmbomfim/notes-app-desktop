@@ -13,11 +13,11 @@ import {
 export default function SideBar({
 	onSearchTextChange
 }: SidebarProps): React.ReactElement {
-	const { user, logged } = useAuth();
+	const { user, logged, login } = useAuth();
 
 	return (
 		<Container>
-			<Option>
+			<Option onClick={login}>
 				{logged && (
 					<ProfileImage src={user.image} alt="Imagem de perfil" />
 				)}
