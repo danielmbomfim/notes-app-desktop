@@ -3,6 +3,7 @@ import {
 	createContext,
 	useContext,
 	useEffect,
+	useRef,
 	useState
 } from 'react';
 import { invoke } from '@tauri-apps/api/tauri';
@@ -12,7 +13,7 @@ import toast from 'react-hot-toast';
 import { AuthenticationPayload, User } from '../types';
 
 interface AuthProviderValue {
-	user: User;
+	user: User | null;
 	logged: boolean;
 	login: () => Promise<void>;
 }
@@ -22,19 +23,17 @@ const context = createContext<AuthProviderValue>({} as AuthProviderValue);
 export function AuthProvider({
 	children
 }: PropsWithChildren): React.ReactElement {
-	const [logged, setLogged] = useState(false);
-	const [user, setUser] = useState<User>({} as User);
+	const [user, setUser] = useState<User | null>(null);
+	const toastRef = useRef<string | undefined>(undefined);
 
 	useEffect(() => {
 		const data = localStorage.getItem('@user');
 
 		if (data === null) {
-			setLogged(false);
 			return;
 		}
 
 		setUser(JSON.parse(data));
-		setLogged(true);
 	}, []);
 
 	useEffect(() => {
@@ -51,8 +50,15 @@ export function AuthProvider({
 	}, []);
 
 	function handleAuthenticationEvents(event: Event<AuthenticationPayload>) {
+		if (event.payload.step === 'start') {
+			toastRef.current = toast.loading('Autenticando, por favor aguarde');
+			return;
+		}
+
 		if (event.payload.error) {
-			toast.error('Houve uma falha no processo de authenticação');
+			toast.error('Houve uma falha no processo de authenticação', {
+				id: toastRef.current
+			});
 			toast.error(event.payload.error);
 			return;
 		}
@@ -61,7 +67,9 @@ export function AuthProvider({
 
 		setUser(user);
 		localStorage.setItem('@user', JSON.stringify(user));
-		toast.success('Usuário authenticado com sucesso');
+		toast.success('Usuário authenticado com sucesso', {
+			id: toastRef.current
+		});
 	}
 
 	async function login() {
@@ -78,7 +86,7 @@ export function AuthProvider({
 	}
 
 	return (
-		<context.Provider value={{ user, logged, login }}>
+		<context.Provider value={{ user, logged: !!user, login }}>
 			{children}
 		</context.Provider>
 	);

@@ -65,6 +65,7 @@ export interface User {
 }
 
 export interface AuthenticationPayload {
+	step: string;
 	user?: User;
 	error?: string;
 }

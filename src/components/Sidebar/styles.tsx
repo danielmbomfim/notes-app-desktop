@@ -25,7 +25,9 @@ export const Option = styled.button`
 	background-color: transparent;
 `;
 
-export const ProfileImage = styled.img`
+export const ProfileImage = styled.img.attrs({
+	referrerPolicy: 'no-referrer'
+})`
 	height: 34px;
 	aspect-ratio: 1;
 	border-radius: 20px;

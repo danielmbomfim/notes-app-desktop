@@ -17,12 +17,12 @@ export default function SideBar({
 
 	return (
 		<Container>
-			<Option onClick={login}>
+			<Option onClick={logged ? undefined : login}>
 				{logged && (
-					<ProfileImage src={user.image} alt="Imagem de perfil" />
+					<ProfileImage src={user?.image} alt="Imagem de perfil" />
 				)}
 				{!logged && <FakeImage>A</FakeImage>}
-				<OptionTitle>{logged ? user.name : 'Anônimo'}</OptionTitle>
+				<OptionTitle>{logged ? user?.name : 'Anônimo'}</OptionTitle>
 			</Option>
 			<Searchbar onTextChange={onSearchTextChange} />
 			<Option>
