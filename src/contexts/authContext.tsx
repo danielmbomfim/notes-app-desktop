@@ -16,6 +16,7 @@ interface AuthProviderValue {
 	user: User | null;
 	logged: boolean;
 	login: () => Promise<void>;
+	logout: () => Promise<void>;
 }
 
 const context = createContext<AuthProviderValue>({} as AuthProviderValue);
@@ -49,7 +50,9 @@ export function AuthProvider({
 		return unsub;
 	}, []);
 
-	function handleAuthenticationEvents(event: Event<AuthenticationPayload>) {
+	async function handleAuthenticationEvents(
+		event: Event<AuthenticationPayload>
+	) {
 		if (event.payload.step === 'start') {
 			toastRef.current = toast.loading('Autenticando, por favor aguarde');
 			return;
@@ -63,13 +66,41 @@ export function AuthProvider({
 			return;
 		}
 
-		const user = event.payload.user as User;
+		const userData = event.payload.user as User;
+		let user;
+
+		try {
+			user = await invoke<User>('create_user', {
+				name: userData.name,
+				email: userData.email,
+				image: userData.image,
+				googleId: userData.id
+			});
+		} catch (error) {
+			toast.error('Houve uma falha no processo de authenticação', {
+				id: toastRef.current
+			});
+			toast.error(error as string);
+			return;
+		}
 
 		setUser(user);
 		localStorage.setItem('@user', JSON.stringify(user));
 		toast.success('Usuário authenticado com sucesso', {
 			id: toastRef.current
 		});
+	}
+
+	async function logout() {
+		try {
+			await invoke<void>('logout');
+			setUser(null);
+			localStorage.removeItem('@user');
+			toast.success('Processo de logout concluído com sucesso');
+		} catch (error) {
+			toast.error('Falha no processo de logout');
+			toast.error(error as string);
+		}
 	}
 
 	async function login() {
@@ -86,7 +117,7 @@ export function AuthProvider({
 	}
 
 	return (
-		<context.Provider value={{ user, logged: !!user, login }}>
+		<context.Provider value={{ user, logged: !!user, login, logout }}>
 			{children}
 		</context.Provider>
 	);

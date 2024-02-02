@@ -7,19 +7,17 @@ use crate::{
     model::{user::User, DatabaseManager, SqliteManager},
     schema::users::dsl::email as user_email,
     schema::users::dsl::google_id as user_google_id,
-    schema::users::dsl::id as user_id,
     schema::users::dsl::image as user_image,
     schema::users::dsl::name as user_name,
     schema::users::dsl::users,
 };
 
 #[tauri::command]
-pub fn get_user(id: i32, state: State<DatabaseManager<SqliteManager>>) -> Result<User, String> {
+pub fn get_user(state: State<DatabaseManager<SqliteManager>>) -> Result<User, String> {
     let connection = &mut state.pool.get().map_err(|err| err.to_string())?;
 
     let user = users
         .select(User::as_select())
-        .filter(user_id.eq(id))
         .first(connection)
         .map_err(|err| err.to_string())?;
 

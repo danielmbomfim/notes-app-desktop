@@ -13,7 +13,7 @@ import {
 export default function SideBar({
 	onSearchTextChange
 }: SidebarProps): React.ReactElement {
-	const { user, logged, login } = useAuth();
+	const { user, logged, login, logout } = useAuth();
 
 	return (
 		<Container>
@@ -28,9 +28,11 @@ export default function SideBar({
 			<Option>
 				<OptionText>Configurações</OptionText>
 			</Option>
-			<Option>
-				<OptionText>Sair</OptionText>
-			</Option>
+			{logged && (
+				<Option onClick={logout}>
+					<OptionText>Sair</OptionText>
+				</Option>
+			)}
 		</Container>
 	);
 }

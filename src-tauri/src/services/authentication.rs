@@ -1,13 +1,17 @@
+use crate::model::{DatabaseManager, SqliteManager};
+use crate::schema::notes::dsl::notes;
+use crate::schema::users::dsl::users;
+use diesel::RunQueryDsl;
 use reqwest::Error;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use tauri::Window;
+use tauri::{State, Window};
 use tauri_plugin_oauth::{start_with_config, OauthConfig};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 struct User {
     #[serde(rename(deserialize = "sub"))]
-    google_id: String,
+    id: String,
     name: String,
     email: String,
     #[serde(rename(deserialize = "picture"))]
@@ -86,10 +90,17 @@ pub fn login(window: Window) -> Result<u16, String> {
     .map_err(|err| err.to_string())
 }
 
-pub fn logout() {
-    todo!();
-}
+#[tauri::command]
+pub fn logout(state: State<DatabaseManager<SqliteManager>>) -> Result<(), String> {
+    let connection = &mut state.pool.get().map_err(|err| err.to_string())?;
 
-pub fn clear() {
-    todo!();
+    diesel::delete(notes)
+        .execute(connection)
+        .map_err(|err| err.to_string())?;
+
+    diesel::delete(users)
+        .execute(connection)
+        .map_err(|err| err.to_string())?;
+
+    Ok(())
 }

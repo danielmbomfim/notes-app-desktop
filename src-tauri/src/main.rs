@@ -4,12 +4,11 @@ mod database;
 mod model;
 mod schema;
 mod services;
-
-use std::{ffi::OsString, fs::create_dir, io::Error, path::Path};
-
 use database::note::{create_note, delete_note, get_note, get_notes, update_note};
+use database::user::{create_user, get_user};
 use model::{get_connection_pool, DatabaseManager};
-use services::authentication::login;
+use services::authentication::{login, logout};
+use std::{ffi::OsString, fs::create_dir, io::Error, path::Path};
 use tauri::{
     api::path::config_dir, CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu,
     WindowEvent,
@@ -54,7 +53,10 @@ fn main() {
             create_note,
             update_note,
             delete_note,
+            get_user,
+            create_user,
             login,
+            logout,
         ])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
