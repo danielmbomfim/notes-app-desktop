@@ -1,5 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 export interface Note {
 	id: number;
@@ -67,4 +67,16 @@ export interface AuthenticationPayload {
 	step: string;
 	user?: User;
 	error?: string;
+}
+
+export interface ModalProps {
+	content: ReactNode;
+	options: ModalOption[];
+	visible: boolean;
+	onCloseRequest: () => void;
+}
+
+export interface ModalOption {
+	text: string;
+	action: () => void;
 }
