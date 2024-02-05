@@ -28,7 +28,7 @@ export default function Header({
 				<FontAwesomeIcon
 					icon={faArrowLeft}
 					size="lg"
-					color={theme.details}
+					color={theme.primary.contrastText}
 				/>
 			</Button>
 			{title}

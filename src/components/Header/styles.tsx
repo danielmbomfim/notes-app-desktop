@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.nav`
 	display: flex;
-	background-color: ${(props) => props.theme.primary};
+	background-color: ${(props) => props.theme.primary.main};
 	height: 50px;
 	align-items: center;
-	color: ${(props) => props.theme.details};
-	font-size: 20px;
+	color: ${(props) => props.theme.primary.contrastText};
+	font-size: ${(props) => props.theme.fontSize.mediumTitle};
 `;
 
 export const Button = styled.button`

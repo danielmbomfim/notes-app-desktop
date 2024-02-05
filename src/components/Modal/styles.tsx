@@ -16,15 +16,15 @@ export const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: ${(props) => props.theme.secondary};
-	border-radius: 8px;
+	background-color: ${(props) => props.theme.primary.main};
+	border-radius: 7px;
 	padding: 20px 20px;
 	gap: 10px;
 `;
 
 export const Text = styled.p`
-	font-size: 18px;
-	color: ${(props) => props.theme.details};
+	font-size: ${(props) => props.theme.fontSize.normalText};
+	color: ${(props) => props.theme.primary.contrastText};
 `;
 
 export const ButtonsArea = styled.div`
@@ -36,9 +36,9 @@ export const ButtonsArea = styled.div`
 
 export const Button = styled.button`
 	border: none;
-	background-color: ${(props) => props.theme.alert};
-	color: ${(props) => props.theme.primary};
-	font-size: 14px;
+	background-color: ${(props) => props.theme.secondary.main};
+	color: ${(props) => props.theme.secondary.contrastText};
+	font-size: ${(props) => props.theme.fontSize.normalText};
 	padding: 5px 14px;
-	border-radius: 5px;
+	border-radius: 7px;
 `;

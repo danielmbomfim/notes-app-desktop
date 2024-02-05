@@ -12,7 +12,10 @@ export default function Searchbar({
 	return (
 		<Container>
 			<Input onChange={onTextChange} />
-			<FontAwesomeIcon icon={faSearch} color={theme.details} />
+			<FontAwesomeIcon
+				icon={faSearch}
+				color={theme.primary.contrastText}
+			/>
 		</Container>
 	);
 }

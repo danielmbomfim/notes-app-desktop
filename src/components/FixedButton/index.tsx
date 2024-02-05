@@ -11,7 +11,11 @@ export default function FixedButton({
 
 	return (
 		<Container onClick={onClick}>
-			<FontAwesomeIcon icon={icon} color={theme.primary} size="2x" />
+			<FontAwesomeIcon
+				icon={icon}
+				color={theme.secondary.contrastText}
+				size="2x"
+			/>
 		</Container>
 	);
 }

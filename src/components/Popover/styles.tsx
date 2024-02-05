@@ -16,9 +16,10 @@ export const UserOptionsContainer = styled.div`
 	max-width: 400px;
 	top: 100%;
 	right: 10px;
-	border-radius: 3px;
+	border-radius: 7px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 	display: none;
+	overflow: hidden;
 `;
 
 export const UserOption = styled.div`
@@ -26,10 +27,11 @@ export const UserOption = styled.div`
 	min-width: 100px;
 	text-align: right;
 	white-space: nowrap;
-	border-radius: 3px;
+	font-size: ${(props) => props.theme.fontSize.smallText};
+	color: ${(props) => props.theme.primary.main};
 	gap: 5px;
 
 	&:hover {
-		background-color: #dadce0;
+		background-color: ${(props) => props.theme.background};
 	}
 `;

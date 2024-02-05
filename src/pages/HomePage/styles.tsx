@@ -18,23 +18,23 @@ export const NotesArea = styled.section`
 export const NoteContainer = styled.article`
 	display: flex;
 	flex-direction: column;
-	background-color: ${(props) => props.theme.secondary};
+	background-color: ${(props) => props.theme.primary.main};
 	height: 350px;
 	margin: 10px 5px;
-	border-radius: 10px;
+	border-radius: 7px;
 	flex: 0.5;
 	overflow: hidden;
 `;
 
 export const NoteTitle = styled.h3`
-	color: ${(props) => props.theme.details};
-	font-size: 25px;
+	color: ${(props) => props.theme.primary.contrastText};
+	font-size: ${(props) => props.theme.fontSize.mediumTitle};
 	margin: 5px 10px;
 `;
 
 export const NoteContent = styled.p`
-	color: ${(props) => props.theme.details};
-	font-size: 15px;
+	color: ${(props) => props.theme.primary.contrastText};
+	font-size: ${(props) => props.theme.fontSize.normalText};
 	margin: 5px 10px;
 `;
 
@@ -49,7 +49,7 @@ export const EmptyListContainer = styled.section`
 `;
 
 export const EmptyListText = styled.h3`
-	color: ${(props) => props.theme.primary};
-	font-size: 20px;
+	color: ${(props) => props.theme.primary.main};
+	font-size: ${(props) => props.theme.fontSize.mediumTitle};
 	text-align: center;
 `;

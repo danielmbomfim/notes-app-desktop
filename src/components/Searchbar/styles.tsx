@@ -10,7 +10,7 @@ export const Container = styled.div`
 	height: 40px;
 	padding: 0 10px;
 	margin: 10px 15px;
-	border-radius: 15px;
+	border-radius: 7px;
 `;
 
 export const Input = styled.input.attrs({
@@ -19,7 +19,6 @@ export const Input = styled.input.attrs({
 	flex: 1;
 	background: transparent;
 	border: none;
-	outline: none;
-	color: ${(props) => props.theme.details};
-	font-size: 16px;
+	color: ${(props) => props.theme.primary.contrastText};
+	font-size: ${(props) => props.theme.fontSize.normalText};
 `;

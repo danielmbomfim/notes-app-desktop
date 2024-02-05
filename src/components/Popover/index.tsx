@@ -40,7 +40,7 @@ export default function Popover({ options }: PopoverProps): React.ReactElement {
 			<FontAwesomeIcon
 				icon={faEllipsisVertical}
 				size="xl"
-				color={theme.details}
+				color={theme.primary.contrastText}
 			/>
 			<UserOptionsContainer
 				style={visible ? { display: 'block' } : { display: 'none' }}

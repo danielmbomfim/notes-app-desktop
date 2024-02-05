@@ -9,6 +9,6 @@ export const Container = styled.button`
 	bottom: 25px;
 	width: 60px;
 	height: 60px;
-	background-color: ${(props) => props.theme.alert};
+	background-color: ${(props) => props.theme.secondary.main};
 	border-radius: 40px;
 `;
