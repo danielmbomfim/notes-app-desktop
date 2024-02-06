@@ -69,11 +69,15 @@ export interface AuthenticationPayload {
 	error?: string;
 }
 
-export interface ModalProps {
-	content: ReactNode;
-	options: ModalOption[];
+export interface ModalContainerProps {
+	children?: ReactNode;
 	visible: boolean;
 	onCloseRequest: () => void;
+}
+
+export interface ModalActionProps {
+	onClick: () => void;
+	text: string;
 }
 
 export interface ModalOption {

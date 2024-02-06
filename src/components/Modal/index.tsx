@@ -1,22 +1,34 @@
 import { Overlay, Container, Text, ButtonsArea, Button } from './styles';
-import { ModalProps } from '../../types';
+import { ModalActionProps, ModalContainerProps } from '../../types';
+import { PropsWithChildren } from 'react';
 
-export default function Modal({
-	content,
-	options,
+function ModalContainer({
 	onCloseRequest,
-	visible
-}: ModalProps): React.ReactElement | null {
+	visible,
+	children
+}: ModalContainerProps): React.ReactElement | null {
 	return !visible ? null : (
 		<Overlay onClick={onCloseRequest}>
-			<Container>
-				<Text>{content}</Text>
-				<ButtonsArea>
-					{options.map((option) => (
-						<Button onClick={option.action}>{option.text}</Button>
-					))}
-				</ButtonsArea>
-			</Container>
+			<Container>{children}</Container>
 		</Overlay>
 	);
 }
+
+function Content({ children }: PropsWithChildren): React.ReactElement {
+	return <Text>{children}</Text>;
+}
+
+function ActionsArea({ children }: PropsWithChildren): React.ReactElement {
+	return <ButtonsArea>{children}</ButtonsArea>;
+}
+
+function Action({ onClick, text }: ModalActionProps) {
+	return <Button onClick={onClick}>{text}</Button>;
+}
+
+export default {
+	Container: ModalContainer,
+	Content,
+	ActionsArea,
+	Action
+};

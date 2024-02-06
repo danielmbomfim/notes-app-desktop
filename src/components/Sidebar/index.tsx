@@ -36,15 +36,21 @@ export default function SideBar({
 					<OptionText>Sair</OptionText>
 				</Option>
 			)}
-			<Modal
+			<Modal.Container
 				visible={showModal}
 				onCloseRequest={() => setShowModal(false)}
-				content="Tem certeza que deseja sair da sua conta?"
-				options={[
-					{ action: () => null, text: 'Cancelar' },
-					{ action: logout, text: 'Confirmar' }
-				]}
-			/>
+			>
+				<Modal.Content>
+					Tem certeza que deseja sair da sua conta?
+				</Modal.Content>
+				<Modal.ActionsArea>
+					<Modal.Action
+						text="Cancelar"
+						onClick={() => setShowModal(false)}
+					/>
+					<Modal.Action text="Confirmar" onClick={logout} />
+				</Modal.ActionsArea>
+			</Modal.Container>
 		</Container>
 	);
 }
