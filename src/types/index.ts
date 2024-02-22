@@ -84,3 +84,13 @@ export interface ModalOption {
 	text: string;
 	action: () => void;
 }
+
+export interface ModalProps {
+	visible: boolean;
+	onCloseRequest: () => void;
+}
+
+export interface UserSettings {
+	sync: boolean;
+	runOnBackground: boolean;
+}

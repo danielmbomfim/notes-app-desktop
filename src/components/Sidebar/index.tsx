@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import SettingsModal from './components/SettingsModal';
+import CloseModal from './components/CloseModal';
 import Searchbar from '../Searchbar';
-import Modal from '../Modal';
 import { useAuth } from '../../contexts/authContext';
 import { SidebarProps } from '../../types';
 import {
@@ -15,8 +16,9 @@ import {
 export default function SideBar({
 	onSearchTextChange
 }: SidebarProps): React.ReactElement {
-	const { user, logged, login, logout } = useAuth();
-	const [showModal, setShowModal] = useState(false);
+	const { user, logged, login } = useAuth();
+	const [showCloseModal, setShowCloseModal] = useState(false);
+	const [showSettingsModal, setShowSettingsModal] = useState(false);
 
 	return (
 		<Container>
@@ -29,28 +31,23 @@ export default function SideBar({
 			</Option>
 			<Searchbar onTextChange={onSearchTextChange} />
 			<Option>
-				<OptionText>Configurações</OptionText>
+				<OptionText onClick={() => setShowSettingsModal(true)}>
+					Configurações
+				</OptionText>
 			</Option>
 			{logged && (
-				<Option onClick={() => setShowModal(true)}>
+				<Option onClick={() => setShowCloseModal(true)}>
 					<OptionText>Sair</OptionText>
 				</Option>
 			)}
-			<Modal.Container
-				visible={showModal}
-				onCloseRequest={() => setShowModal(false)}
-			>
-				<Modal.Content>
-					Tem certeza que deseja sair da sua conta?
-				</Modal.Content>
-				<Modal.ActionsArea>
-					<Modal.Action
-						text="Cancelar"
-						onClick={() => setShowModal(false)}
-					/>
-					<Modal.Action text="Confirmar" onClick={logout} />
-				</Modal.ActionsArea>
-			</Modal.Container>
+			<CloseModal
+				visible={showCloseModal}
+				onCloseRequest={() => setShowCloseModal(false)}
+			/>
+			<SettingsModal
+				visible={showSettingsModal}
+				onCloseRequest={() => setShowSettingsModal(false)}
+			/>
 		</Container>
 	);
 }
