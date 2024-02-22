@@ -9,7 +9,9 @@ function ModalContainer({
 }: ModalContainerProps): React.ReactElement | null {
 	return !visible ? null : (
 		<Overlay onClick={onCloseRequest}>
-			<Container>{children}</Container>
+			<Container onClick={(evt) => evt.stopPropagation()}>
+				{children}
+			</Container>
 		</Overlay>
 	);
 }
