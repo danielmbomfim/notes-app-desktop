@@ -67,7 +67,7 @@ export default function SettingsModal({
 						<Subtitle>{logged ? user?.name : 'Anônimo'}</Subtitle>
 					</UserArea>
 					<HorizontalArea>
-						<Label>Ativar/desativar sincronização</Label>
+						<Label>Sincronização de dados</Label>
 						<Switch
 							disabled={!logged}
 							checked={settings.sync}
