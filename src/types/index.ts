@@ -94,3 +94,8 @@ export interface UserSettings {
 	sync: boolean;
 	runOnBackground: boolean;
 }
+
+export interface SettingsProvider {
+	setSetting: (settings: UserSettings) => Promise<UserSettings>;
+	getSetting: () => Promise<UserSettings>;
+}

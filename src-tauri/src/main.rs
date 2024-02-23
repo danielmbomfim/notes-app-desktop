@@ -5,6 +5,7 @@ mod model;
 mod schema;
 mod services;
 use database::note::{create_note, delete_note, get_note, get_notes, update_note};
+use database::setting::{get_setting, set_setting};
 use database::user::{create_user, get_user};
 use model::{get_connection_pool, DatabaseManager};
 use services::authentication::{login, logout};
@@ -57,6 +58,8 @@ fn main() {
             create_user,
             login,
             logout,
+            get_setting,
+            set_setting,
         ])
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| match event {
@@ -74,10 +77,17 @@ fn main() {
         })
         .manage(state)
         .on_window_event(|event| match event.event() {
-            WindowEvent::CloseRequested { api, .. } => {
-                api.prevent_close();
-                event.window().hide().unwrap();
-            }
+            WindowEvent::CloseRequested { api, .. } => match get_setting(event.window().state()) {
+                Ok(setting) => {
+                    if !setting.run_on_background {
+                        return;
+                    }
+
+                    api.prevent_close();
+                    event.window().hide().unwrap();
+                }
+                Err(_) => {}
+            },
             _ => {}
         })
         .run(tauri::generate_context!())

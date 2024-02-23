@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../../components/Sidebar';
 import FixedButton from '../../components/FixedButton';
-import database from '../../services/database';
+import database from '../../services/notesService';
 import {
 	Container,
 	NotesArea,

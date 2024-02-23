@@ -3,6 +3,7 @@ import { useTheme } from 'styled-components';
 import Switch from 'react-switch';
 import Modal from '../../../Modal';
 import { useAuth } from '../../../../contexts/authContext';
+import settingsService from '../../../../services/settingsService';
 import { ModalProps, UserSettings } from '../../../../types';
 import {
 	Container,
@@ -38,17 +39,16 @@ export default function SettingsModal({
 	}, [visible]);
 
 	useEffect(() => {
-		function getSettings() {
-			setSettings({
-				runOnBackground: true,
-				sync: logged ? true : false
-			});
+		async function getSettings() {
+			const setting = await settingsService.getSetting();
+			setSettings(setting);
 		}
 
 		getSettings();
 	}, [logged, visible]);
 
-	function saveSettings() {
+	async function saveSettings() {
+		await settingsService.setSetting(settings);
 		onCloseRequest();
 	}
 

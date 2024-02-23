@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/tauri';
 import { Note, NoteDraft, NotesProvider, QueryParams } from '../types';
 
-class DatabaseService implements NotesProvider {
+class NoteseService implements NotesProvider {
 	async createNote(data: NoteDraft) {
 		const note = await invoke<Note>('create_note', { ...data });
 
@@ -31,4 +31,4 @@ class DatabaseService implements NotesProvider {
 	}
 }
 
-export default new DatabaseService();
+export default new NoteseService();

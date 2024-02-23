@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
-import database from '../../services/database';
+import database from '../../services/notesService';
 import { Container, InputsArea, TitleInput, ContentInput } from './styles';
 import { PopoverOption } from '../../types';
 import FixedButton from '../../components/FixedButton';

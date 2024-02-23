@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
-import database from '../../services/database';
+import notesService from '../../services/notesService';
 import { EditionPageParams, PopoverOption } from '../../types';
 import { Container, InputsArea, TitleInput, ContentInput } from './styles';
 import FixedButton from '../../components/FixedButton';
@@ -24,14 +24,14 @@ export default function EditionPage(): React.ReactElement {
 	];
 
 	useEffect(() => {
-		database.getNote(parseInt(noteId as string)).then((note) => {
+		notesService.getNote(parseInt(noteId as string)).then((note) => {
 			setTitle(note.title);
 			setContent(note.content);
 		});
 	}, [noteId]);
 
 	function updateNote() {
-		database.updateNote({
+		notesService.updateNote({
 			id: parseInt(noteId as string),
 			title,
 			content
@@ -39,7 +39,7 @@ export default function EditionPage(): React.ReactElement {
 	}
 
 	function removeNote() {
-		database.deleteNote(parseInt(noteId as string));
+		notesService.deleteNote(parseInt(noteId as string));
 		navigate('/');
 	}
 

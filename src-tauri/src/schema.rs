@@ -1,5 +1,3 @@
-// @generated automatically by Diesel CLI.
-
 diesel::table! {
     notes (id) {
         id -> Integer,
@@ -15,5 +13,13 @@ diesel::table! {
         email -> Text,
         image -> Text,
         google_id -> Text,
+    }
+}
+
+diesel::table! {
+    settings (id) {
+        id -> Integer,
+        run_on_background -> SmallInt,
+        sync -> SmallInt,
     }
 }
