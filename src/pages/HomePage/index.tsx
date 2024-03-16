@@ -4,6 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../../components/Sidebar';
 import FixedButton from '../../components/FixedButton';
 import database from '../../services/notesService';
+import { useAuth } from '../../contexts/authContext';
 import {
 	Container,
 	NotesArea,
@@ -17,10 +18,15 @@ import { Note, QueryParams } from '../../types';
 
 export default function NotesPage(): React.ReactElement {
 	const navigate = useNavigate();
+	const { logged } = useAuth();
 	const [notes, setNotes] = useState<Note[]>([]);
 	const [searchText, setSearchText] = useState('');
 
 	useEffect(() => {
+		if (!logged) {
+			return;
+		}
+
 		const settings: QueryParams = {};
 
 		if (searchText.length >= 3) {
@@ -28,7 +34,7 @@ export default function NotesPage(): React.ReactElement {
 		}
 
 		database.getNotes(settings).then(setNotes);
-	}, [searchText]);
+	}, [searchText, logged]);
 
 	function _renderEmptyComponent() {
 		return (

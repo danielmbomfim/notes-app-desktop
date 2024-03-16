@@ -1,0 +1,3 @@
+target/**
+cpp/build/**
+realm_rs/build.debug/**

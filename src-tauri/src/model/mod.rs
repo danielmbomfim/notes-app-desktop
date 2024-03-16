@@ -1,9 +1,7 @@
 use diesel::{connection::SimpleConnection, r2d2::ConnectionManager, SqliteConnection};
 use r2d2::{ManageConnection, Pool};
 
-pub mod note;
 pub mod setting;
-pub mod user;
 
 pub type SqliteManager = ConnectionManager<SqliteConnection>;
 
@@ -22,18 +20,6 @@ impl DatabaseManager<SqliteManager> {
         connection
             .batch_execute(
                 "
-            create table if not exists notes (
-                id integer primary key not null,
-                title text not null,
-                content text not null
-            );
-            create table if not exists users (
-                id integer primary key not null,
-                name text not null,
-                email text not null,
-                image text not null,
-                google_id text not null
-            );
             create table if not exists settings (
                 id integer primary key not null,
                 run_on_background integer not null default 1,

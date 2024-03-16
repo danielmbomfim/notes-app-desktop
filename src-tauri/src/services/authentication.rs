@@ -1,11 +1,8 @@
-use crate::model::{DatabaseManager, SqliteManager};
-use crate::schema::notes::dsl::notes;
-use crate::schema::users::dsl::users;
-use diesel::RunQueryDsl;
+use notes_core::ffi::close_realm;
 use reqwest::Error;
 use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
-use tauri::{State, Window};
+use tauri::Window;
 use tauri_plugin_oauth::{start_with_config, OauthConfig};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -65,7 +62,7 @@ pub fn login(window: Window) -> Result<u16, String> {
         let end_position = url.find("&token_type").unwrap_or(url.len());
 
         let access_token = &url[start_position..end_position];
-        let url = "https://www.googleapis.com/oauth2/v3/userinfo";
+        let url: &str = "https://www.googleapis.com/oauth2/v3/userinfo";
 
         let res = reqwest::blocking::get(format!("{}?{}", url, access_token));
 
@@ -91,16 +88,7 @@ pub fn login(window: Window) -> Result<u16, String> {
 }
 
 #[tauri::command]
-pub fn logout(state: State<DatabaseManager<SqliteManager>>) -> Result<(), String> {
-    let connection = &mut state.pool.get().map_err(|err| err.to_string())?;
-
-    diesel::delete(notes)
-        .execute(connection)
-        .map_err(|err| err.to_string())?;
-
-    diesel::delete(users)
-        .execute(connection)
-        .map_err(|err| err.to_string())?;
-
+pub fn logout() -> Result<(), String> {
+    close_realm();
     Ok(())
 }
