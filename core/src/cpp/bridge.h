@@ -9,7 +9,7 @@ using std::vector;
 struct Note;
 struct User;
 
-void login(rust::String token);
+void login(rust::String token, rust::String path);
 
 void logout();
 

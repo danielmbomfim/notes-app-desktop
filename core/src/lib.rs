@@ -9,7 +9,7 @@ pub mod ffi {
     unsafe extern "C++" {
         include!("notes-core/src/cpp/bridge.h");
 
-        pub fn login(token: String);
+        pub fn login(token: String, path: String);
 
         pub fn logout();
 

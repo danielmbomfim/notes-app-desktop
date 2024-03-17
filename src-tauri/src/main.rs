@@ -6,7 +6,7 @@ mod schema;
 mod services;
 use database::setting::{get_setting, set_setting};
 use model::{get_connection_pool, DatabaseManager};
-use services::authentication::{login, logout};
+use services::authentication::{login, logout, restore_session};
 use services::sync::{create_note, delete_note, get_note, get_notes, update_note};
 use std::{ffi::OsString, fs::create_dir, io::Error, path::Path};
 use tauri::{
@@ -55,6 +55,7 @@ fn main() {
             delete_note,
             login,
             logout,
+            restore_session,
             get_setting,
             set_setting,
         ])

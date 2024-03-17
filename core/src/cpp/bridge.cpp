@@ -13,8 +13,8 @@ struct Note {
     string content;
 };
 
-void login(rust::String token) {
-    return _login(string(token));
+void login(rust::String token, rust::String path) {
+    return _login(string(token), string(path));
 }
 
 void logout() {

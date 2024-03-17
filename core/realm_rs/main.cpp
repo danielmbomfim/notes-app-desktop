@@ -19,9 +19,10 @@ namespace realm {
     REALM_SCHEMA(Note, _id, title, content, owner_id)
 }
 
-realm::App get_app() {
+realm::App get_app(std::string path) {
     auto app_config = realm::App::configuration();
     app_config.app_id = "notes-app-cnyvm";
+    app_config.path = path;
     auto app = realm::App(app_config);
 
     return app;
@@ -40,8 +41,8 @@ class RealmManager {
         void operator=(const RealmManager &) = delete;
         static RealmManager *GetInstance();
 
-        void authenticate_user(std::string token) {
-            auto app = get_app();
+        void authenticate_user(std::string token, std::string path) {
+            auto app = get_app(path);
             auto user = app.login(realm::App::credentials::custom(token)).get();
             auto config = user.flexible_sync_configuration();
 
@@ -79,9 +80,9 @@ RealmManager *RealmManager::GetInstance() {
     return realm_manager_;
 }
 
-void _login(std::string token) {
+void _login(std::string token, std::string path) {
     auto manager = RealmManager::GetInstance();
-    manager->authenticate_user(token);
+    manager->authenticate_user(token, path);
 }
 
 void _logout() {

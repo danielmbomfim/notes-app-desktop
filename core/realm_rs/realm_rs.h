@@ -7,7 +7,7 @@ using std::vector;
 
 struct Note;
 
-void _login(string token);
+void _login(string token, string path);
 
 void _logout();
 
