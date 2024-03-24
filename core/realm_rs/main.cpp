@@ -65,8 +65,16 @@ class RealmManager {
             return this->user;
         }
 
-        std::optional<realm::db> get_realm() {
+        std::optional<realm::db> get_synced_realm() {
             return this->synced_realm;
+        }
+
+        realm::db get_unsynced_realm() {
+            auto config = this->user.flexible_sync_configuration();
+
+            auto realm = realm::open<realm::Note>(std::move(config));
+            
+            return realm;
         }
 };
 
@@ -94,26 +102,26 @@ void _logout() {
 
 realm::Note _create_note(std::optional<std::string> title, std::optional<std::string> content) {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
     auto user = manager->get_user();
 
-    realm::Note note {
+    realm::Note draft {
         ._id = realm::object_id::generate(),
         .title = title,
         .content = content,
         .owner_id = user.identifier(),
     };
 
-    _realm.write([&_realm, &note]() {
-        _realm.add(std::move(note));
+    auto note = _realm.write([&_realm, &draft]() {
+        return _realm.add(std::move(draft));
     });
 
-    return note;
+    return note.detach();
 }
 
 std::vector<realm::Note> _get_notes() {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
 
     std::vector<realm::Note> results;
     auto notes = _realm.objects<realm::Note>();
@@ -127,7 +135,7 @@ std::vector<realm::Note> _get_notes() {
 
 realm::Note _get_note(std::string id) {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
 
     auto notes = _realm.objects<realm::Note>();
 
@@ -140,7 +148,7 @@ realm::Note _get_note(std::string id) {
 
 realm::Note _update_note(std::string id, std::optional<std::string> title, std::optional<std::string> content) {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
     
     auto notes = _realm.objects<realm::Note>();
 
@@ -160,7 +168,7 @@ realm::Note _update_note(std::string id, std::optional<std::string> title, std::
 
 void _delete_note(std::string id) {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
 
     auto notes = _realm.objects<realm::Note>();
 
@@ -177,7 +185,7 @@ void _delete_note(std::string id) {
 
 void _delete_notes() {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = manager->get_unsynced_realm();
     
     auto notes = _realm.objects<realm::Note>();
 
@@ -191,7 +199,7 @@ void _delete_notes() {
 
 void _close_realm() {
     auto manager = RealmManager::GetInstance();
-    auto _realm = *std::move(manager->get_realm());
+    auto _realm = *std::move(manager->get_synced_realm());
 
     _realm.close();
 }

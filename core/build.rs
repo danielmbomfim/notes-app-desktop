@@ -22,4 +22,6 @@ fn main() {
     println!("cargo:rerun-if-changed=src/lib.rs");
     println!("cargo:rerun-if-changed=src/cpp/bridge.cpp");
     println!("cargo:rerun-if-changed=src/cpp/bridge.h");
+    println!("cargo:rerun-if-changed=realm_rs/main.cpp");
+    println!("cargo:rerun-if-changed=realm_rs/realm_rs.h");
 }

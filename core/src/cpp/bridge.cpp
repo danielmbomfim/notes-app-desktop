@@ -2,15 +2,23 @@
 #include <string>
 #include <optional>
 #include "rust/cxx.h"
+#include <cpprealm/sdk.hpp>
 #include "../../realm_rs/realm_rs.h"
 
 using std::vector;
 using std::string;
 
 struct Note {
-    string _id;
-    string title;
-    string content;
+    realm::primary_key<realm::object_id> _id;
+    std::optional<string> title;
+    std::optional<string> content;
+    string owner_id;
+};
+
+struct RustNote {
+    rust::String _id;
+    rust::String title;
+    rust::String content;
 };
 
 void login(rust::String token, rust::String path) {
@@ -21,33 +29,56 @@ void logout() {
     return _logout();
 }
 
-Note create_note(rust::String title, rust::String content) {
-    std::optional<string> _title = title.empty() ? nullptr : string(title);
-    std::optional<string> _content = content.empty() ? nullptr : string(content);
+RustNote create_note(rust::String title, rust::String content) {
+    std::optional<string> _title = title.empty() ? std::nullopt : std::optional<string> { string(title) };
+    std::optional<string> _content = content.empty() ? std::nullopt : std::optional<string> { string(content) };
 
-    return _create_note(_title, _content);
+    auto note = _create_note(_title, _content);
+
+    return RustNote {
+        ._id = rust::String(note._id.value.to_string()),
+        .title = rust::String(note.title.value_or("")),
+        .content = rust::String(note.content.value_or("")),
+    };
 }
 
-Note get_note(rust::String id) {
-    return _get_note(string(id));
+RustNote get_note(rust::String id) {
+    auto note =_get_note(string(id));
+
+    return RustNote {
+        ._id = rust::String(note._id.value.to_string()),
+        .title = rust::String(note.title.value_or("")),
+        .content = rust::String(note.content.value_or("")),
+    };
 }
 
-rust::Vec<Note> get_notes() {
+rust::Vec<RustNote> get_notes() {
     vector<Note> notes = _get_notes();
-    rust::Vec<Note> results;
+    rust::Vec<RustNote> results;
 
     for (unsigned i = 0; i < notes.size(); i++) {
-        results.push_back(notes[i]);
+        auto note = RustNote {
+            ._id = rust::String(notes[i]._id.value.to_string()),
+            .title = rust::String(notes[i].title.value_or("")),
+            .content = rust::String(notes[i].content.value_or("")),
+        };
+        results.push_back(note);
     }
                 
     return results;
 }
 
-Note update_note(rust::String id, rust::String title, rust::String content) {
+RustNote update_note(rust::String id, rust::String title, rust::String content) {
     std::optional<string> _title = title.empty() ? nullptr : string(title);
     std::optional<string> _content = content.empty() ? nullptr : string(content);
 
-    return _update_note(string(id), _title, _content);
+    auto note = _update_note(string(id), _title, _content);
+
+    return RustNote {
+        ._id = rust::String(note._id.value.to_string()),
+        .title = rust::String(note.title.value_or("")),
+        .content = rust::String(note.content.value_or("")),
+    };
 }
 
 void delete_note(rust::String id) {

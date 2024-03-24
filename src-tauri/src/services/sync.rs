@@ -1,10 +1,10 @@
 use notes_core::ffi::{
     create_note as r_create_note, delete_note as r_delete_note, get_note as r_get_note,
-    get_notes as r_get_notes, update_note as r_update_note, Note,
+    get_notes as r_get_notes, update_note as r_update_note, RustNote as Note,
 };
 use serde::Serialize;
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 pub struct NoteData {
     pub id: String,
     pub title: String,
@@ -41,15 +41,22 @@ pub fn get_note(id: &str) -> NoteData {
 }
 
 #[tauri::command]
-pub fn create_note(title: &str, content: &str) -> NoteData {
-    let note = r_create_note(title.to_owned(), content.to_owned());
+pub fn create_note(title: Option<&str>, content: Option<&str>) -> NoteData {
+    let note = r_create_note(
+        title.unwrap_or("").to_owned(),
+        content.unwrap_or("").to_owned(),
+    );
 
     NoteData::from_realm(&note)
 }
 
 #[tauri::command]
-pub fn update_note(id: &str, title: &str, content: &str) -> NoteData {
-    let note = r_update_note(id.to_owned(), title.to_owned(), content.to_owned());
+pub fn update_note(id: &str, title: Option<&str>, content: Option<&str>) -> NoteData {
+    let note = r_update_note(
+        id.to_owned(),
+        title.unwrap_or("").to_owned(),
+        content.unwrap_or("").to_owned(),
+    );
 
     NoteData::from_realm(&note)
 }

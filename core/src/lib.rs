@@ -1,6 +1,6 @@
 #[cxx::bridge]
 pub mod ffi {
-    struct Note {
+    struct RustNote {
         _id: String,
         title: String,
         content: String,
@@ -13,13 +13,13 @@ pub mod ffi {
 
         pub fn logout();
 
-        pub fn create_note(title: String, content: String) -> Note;
+        pub fn create_note(title: String, content: String) -> RustNote;
 
-        pub fn get_note(id: String) -> Note;
+        pub fn get_note(id: String) -> RustNote;
 
-        pub fn get_notes() -> Vec<Note>;
+        pub fn get_notes() -> Vec<RustNote>;
 
-        pub fn update_note(id: String, title: String, content: String) -> Note;
+        pub fn update_note(id: String, title: String, content: String) -> RustNote;
 
         pub fn delete_note(id: String);
 

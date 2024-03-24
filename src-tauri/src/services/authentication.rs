@@ -105,18 +105,19 @@ pub fn login(window: Window) -> Result<u16, String> {
     .map_err(|err| err.to_string())
 }
 
-#[tauri::command]
-pub fn restore_session(token: &str) -> Result<String, String> {
+#[tauri::command(async)]
+pub async fn restore_session(token: String) -> Result<String, String> {
     let url: &str = "http://localhost:8000/refresh";
 
-    let client = reqwest::blocking::Client::new();
+    let client = reqwest::Client::new();
     let res = client
         .get(url)
         .header("Authorization", format!("Bearer {}", token))
         .send()
+        .await
         .map_err(|err| err.to_string())?;
 
-    let data: RefreshData = res.json().map_err(|err| err.to_string())?;
+    let data: RefreshData = res.json().await.map_err(|err| err.to_string())?;
 
     let config_dir =
         config_dir().expect("It was not possible to obtain the configuration directory");
