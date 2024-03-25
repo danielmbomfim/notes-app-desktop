@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ChangeEvent, ReactNode } from 'react';
 
 export interface Note {
-	id: number;
+	id: string;
 	title: string;
 	content: string;
 }
@@ -34,9 +34,9 @@ export interface PopoverOption {
 export interface NotesProvider {
 	createNote: (data: NoteDraft) => Promise<Note>;
 	updateNote: (note: Note) => Promise<Note>;
-	getNote: (id: number) => Promise<Note>;
+	getNote: (id: string) => Promise<Note>;
 	getNotes: (params?: QueryParams) => Promise<Note[]>;
-	deleteNote: (id: number) => Promise<void>;
+	deleteNote: (id: string) => Promise<void>;
 }
 
 export interface FixedButtonProps {

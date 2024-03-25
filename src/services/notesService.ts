@@ -14,7 +14,7 @@ class NoteseService implements NotesProvider {
 		return updatedNote;
 	}
 
-	async getNote(id: number) {
+	async getNote(id: string) {
 		const note = await invoke<Note>('get_note', { id });
 
 		return note;
@@ -26,7 +26,7 @@ class NoteseService implements NotesProvider {
 		return notes;
 	}
 
-	async deleteNote(id: number) {
+	async deleteNote(id: string) {
 		await invoke<void>('delete_note', { id });
 	}
 }
