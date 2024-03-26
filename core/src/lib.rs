@@ -17,7 +17,7 @@ pub mod ffi {
 
         pub fn get_note(id: String) -> RustNote;
 
-        pub fn get_notes() -> Vec<RustNote>;
+        pub fn get_notes(search_text: String) -> Vec<RustNote>;
 
         pub fn update_note(id: String, title: String, content: String) -> RustNote;
 

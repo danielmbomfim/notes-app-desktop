@@ -52,8 +52,10 @@ RustNote get_note(rust::String id) {
     };
 }
 
-rust::Vec<RustNote> get_notes() {
-    vector<Note> notes = _get_notes();
+rust::Vec<RustNote> get_notes(rust::String search_text) {
+    std::optional<string> _search_text = search_text.empty() ? std::nullopt : std::optional<string> { string(search_text) };
+
+    vector<Note> notes = _get_notes(_search_text);
     rust::Vec<RustNote> results;
 
     for (unsigned i = 0; i < notes.size(); i++) {

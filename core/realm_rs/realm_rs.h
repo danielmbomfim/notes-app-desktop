@@ -13,7 +13,7 @@ void _logout();
 
 Note _create_note(std::optional<string> title, std::optional<string> content);
 
-vector<Note> _get_notes();
+vector<Note> _get_notes(std::optional<string> search_text);
 
 Note _get_note(string id);
 

@@ -2,7 +2,12 @@ use notes_core::ffi::{
     create_note as r_create_note, delete_note as r_delete_note, get_note as r_get_note,
     get_notes as r_get_notes, update_note as r_update_note, RustNote as Note,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize, Debug)]
+pub struct QueryParams {
+    text: Option<String>,
+}
 
 #[derive(Serialize, Debug)]
 pub struct NoteData {
@@ -22,8 +27,8 @@ impl NoteData {
 }
 
 #[tauri::command]
-pub fn get_notes() -> Vec<NoteData> {
-    let notes = r_get_notes();
+pub fn get_notes(params: QueryParams) -> Vec<NoteData> {
+    let notes = r_get_notes(params.text.unwrap_or("".to_owned()));
     let mut results = Vec::with_capacity(notes.len());
 
     for note in notes.iter() {

@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include <cpprealm/sdk.hpp>
 
 #if __APPLE__
@@ -119,15 +117,27 @@ realm::Note _create_note(std::optional<std::string> title, std::optional<std::st
     return note.detach();
 }
 
-std::vector<realm::Note> _get_notes() {
+std::vector<realm::Note> _get_notes(std::optional<std::string> search_text) {
     auto manager = RealmManager::GetInstance();
     auto _realm = manager->get_unsynced_realm();
 
     std::vector<realm::Note> results;
-    auto notes = _realm.objects<realm::Note>();
+    auto managed_notes = _realm.objects<realm::Note>();
 
-    for (size_t i = 0; i < notes.size(); i++) {
-        results.push_back(notes[i].detach());
+    if (search_text.has_value()) {
+        auto filtered_notes = managed_notes.where([&search_text](auto &note) {
+            auto filter = search_text.value();
+
+            return note.title.contains(filter) || note.content.contains(filter);
+        });
+
+        for (size_t i = 0; i < filtered_notes.size(); i++) {
+            results.push_back(filtered_notes[i].detach());
+        }
+    } else {
+        for (size_t i = 0; i < managed_notes.size(); i++) {
+            results.push_back(managed_notes[i].detach());
+        }
     }
                 
     return results;
