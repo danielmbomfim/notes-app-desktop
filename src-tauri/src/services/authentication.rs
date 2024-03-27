@@ -130,7 +130,7 @@ pub async fn restore_session(token: String) -> Result<String, String> {
     Ok(data.token)
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub fn logout() -> Result<(), String> {
     realm_logout();
     close_realm();

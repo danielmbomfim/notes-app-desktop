@@ -1,5 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent, ButtonHTMLAttributes, ReactNode } from 'react';
 
 export interface Note {
 	id: string;
@@ -39,7 +39,8 @@ export interface NotesProvider {
 	deleteNote: (id: string) => Promise<void>;
 }
 
-export interface FixedButtonProps {
+export interface FixedButtonProps
+	extends ButtonHTMLAttributes<HTMLButtonElement> {
 	onClick: () => void;
 	icon: IconProp;
 }

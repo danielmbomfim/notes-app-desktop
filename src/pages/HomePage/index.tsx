@@ -24,6 +24,7 @@ export default function NotesPage(): React.ReactElement {
 
 	useEffect(() => {
 		if (!logged) {
+			setNotes([]);
 			return;
 		}
 
@@ -71,6 +72,7 @@ export default function NotesPage(): React.ReactElement {
 				<NotesArea>{notes.map(_renderNote)}</NotesArea>
 			)}
 			<FixedButton
+				disabled={!logged}
 				icon={faPlus}
 				onClick={() => navigate('/new-notes-page')}
 			/>
