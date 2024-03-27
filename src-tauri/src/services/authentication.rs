@@ -68,7 +68,7 @@ pub fn login(window: Window) -> Result<u16, String> {
         let end_position = url.find("&token_type").unwrap_or(url.len());
 
         let access_token = &url[start_position + 13..end_position];
-        let url: &str = "http://localhost:8000/authentication";
+        let url = format!("{}/authentication", env!("API_URL"));
 
         let mut body = HashMap::new();
         body.insert("code", access_token);
@@ -107,7 +107,7 @@ pub fn login(window: Window) -> Result<u16, String> {
 
 #[tauri::command(async)]
 pub async fn restore_session(token: String) -> Result<String, String> {
-    let url: &str = "http://localhost:8000/refresh";
+    let url = format!("{}/refresh", env!("API_URL"));
 
     let client = reqwest::Client::new();
     let res = client
