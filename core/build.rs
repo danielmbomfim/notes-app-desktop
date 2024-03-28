@@ -1,6 +1,8 @@
 use cmake::Config;
 
 fn main() {
+    let profile = std::env::var("PROFILE").unwrap();
+
     let lib = Config::new("realm_rs")
         .cxxflag("-fpermissive")
         .cxxflag("-Wchanges-meaning")
@@ -11,7 +13,30 @@ fn main() {
         .build();
 
     println!("cargo:rustc-link-search=native={}/build/", lib.display());
-    println!("cargo:rustc-link-lib=dylib=realm_rs");
+    println!("cargo:rustc-link-search=native={}/lib/", lib.display());
+    println!("cargo:rustc-link-lib=curl");
+    println!("cargo:rustc-link-lib=uv");
+    println!("cargo:rustc-link-lib=static=realm_rs");
+
+    match profile.as_str() {
+        "debug" => {
+            println!("cargo:rustc-link-lib=static=realm-dbg");
+            println!("cargo:rustc-link-lib=static=realm-parser-dbg");
+            println!("cargo:rustc-link-lib=static=realm-sync-dbg");
+            println!("cargo:rustc-link-lib=static=realm-object-store-dbg");
+            println!("cargo:rustc-link-lib=static=cpprealm-dbg");
+            println!("cargo:rustc-link-lib=static=realm-ffi-static-dbg");
+        }
+        "release" => {
+            println!("cargo:rustc-link-lib=static=realm");
+            println!("cargo:rustc-link-lib=static=realm-parser");
+            println!("cargo:rustc-link-lib=static=realm-sync");
+            println!("cargo:rustc-link-lib=static=realm-object-store");
+            println!("cargo:rustc-link-lib=static=cpprealm");
+            println!("cargo:rustc-link-lib=static=realm-ffi-static");
+        }
+        _ => (),
+    }
 
     cxx_build::bridge("src/lib.rs")
         .file("src/cpp/bridge.cpp")

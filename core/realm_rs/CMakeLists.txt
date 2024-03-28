@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 project(RealmRs)
 
 # Minimum C++ standard
-set(CMAKE_CXX_FLAGS "-fpermissive -Wchanges-meaning -fPIC")
+set(CMAKE_CXX_FLAGS "-fpermissive -Wchanges-meaning")
 set(CMAKE_CXX_STANDARD 17)
 set(REALM_CPP_NO_TESTS ON)
 
@@ -25,7 +25,7 @@ FetchContent_Declare(
 # The MakeAvailable command ensures the named dependencies have been populated
 FetchContent_MakeAvailable(cpprealm)
 
-add_library(realm_rs SHARED main.cpp)
+add_library(realm_rs STATIC main.cpp)
 
 target_link_libraries(realm_rs PRIVATE cpprealm)
 
