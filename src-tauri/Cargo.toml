@@ -1,6 +1,6 @@
 [package]
 name = "notes-app-desktop"
-version = "2.0.0"
+version = "2.0.1"
 description = "Aplicação de gerenciamento de anotações"
 authors = ["you"]
 license = ""
