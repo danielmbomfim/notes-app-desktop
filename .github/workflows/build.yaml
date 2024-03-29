@@ -14,10 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ubuntu-latest]
-        include:
-          - runs-on: ubuntu-latest
-            compiler: gcc
-            gcc: 13
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -39,6 +35,12 @@ jobs:
 
       - name: install frontend dependencies
         run: yarn install
+      
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: latest
+          platform: x64
 
       - uses: tauri-apps/tauri-action@v0
         env:
