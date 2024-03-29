@@ -24,7 +24,7 @@ export default function EditionPage(): React.ReactElement {
 	];
 
 	useEffect(() => {
-		notesService.getNote(parseInt(noteId as string)).then((note) => {
+		notesService.getNote(noteId as string).then((note) => {
 			setTitle(note.title);
 			setContent(note.content);
 		});
@@ -32,14 +32,14 @@ export default function EditionPage(): React.ReactElement {
 
 	function updateNote() {
 		notesService.updateNote({
-			id: parseInt(noteId as string),
+			id: noteId as string,
 			title,
 			content
 		});
 	}
 
 	function removeNote() {
-		notesService.deleteNote(parseInt(noteId as string));
+		notesService.deleteNote(noteId as string);
 		navigate('/');
 	}
 

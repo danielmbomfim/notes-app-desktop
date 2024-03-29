@@ -4,13 +4,13 @@ import { Container } from './styles';
 import { FixedButtonProps } from '../../types';
 
 export default function FixedButton({
-	onClick,
-	icon
+	icon,
+	...buttonProps
 }: FixedButtonProps): React.ReactElement {
 	const theme = useTheme();
 
 	return (
-		<Container onClick={onClick}>
+		<Container {...buttonProps}>
 			<FontAwesomeIcon
 				icon={icon}
 				color={theme.secondary.contrastText}

@@ -34,7 +34,22 @@ export function AuthProvider({
 			return;
 		}
 
-		setUser(JSON.parse(data));
+		const user: User = JSON.parse(data);
+
+		toast
+			.promise(invoke<string>('restore_session', { token: user.token }), {
+				loading: 'Restaurando sessão',
+				error: 'Houve uma falha no processo de authenticação',
+				success: 'Usuário authenticado com sucesso'
+			})
+			.then((token) => {
+				user.token = token;
+				setUser(user);
+				localStorage.setItem('@user', JSON.stringify(user));
+			})
+			.catch((err) => {
+				toast.error(err);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -66,23 +81,7 @@ export function AuthProvider({
 			return;
 		}
 
-		const userData = event.payload.user as User;
-		let user;
-
-		try {
-			user = await invoke<User>('create_user', {
-				name: userData.name,
-				email: userData.email,
-				image: userData.image,
-				googleId: userData.id
-			});
-		} catch (error) {
-			toast.error('Houve uma falha no processo de authenticação', {
-				id: toastRef.current
-			});
-			toast.error(error as string);
-			return;
-		}
+		const user = event.payload.user as User;
 
 		setUser(user);
 		localStorage.setItem('@user', JSON.stringify(user));

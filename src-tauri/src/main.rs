@@ -4,11 +4,10 @@ mod database;
 mod model;
 mod schema;
 mod services;
-use database::note::{create_note, delete_note, get_note, get_notes, update_note};
 use database::setting::{get_setting, set_setting};
-use database::user::{create_user, get_user};
 use model::{get_connection_pool, DatabaseManager};
-use services::authentication::{login, logout};
+use services::authentication::{login, logout, restore_session};
+use services::sync::{create_note, delete_note, get_note, get_notes, update_note};
 use std::{ffi::OsString, fs::create_dir, io::Error, path::Path};
 use tauri::{
     api::path::config_dir, CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu,
@@ -54,10 +53,9 @@ fn main() {
             create_note,
             update_note,
             delete_note,
-            get_user,
-            create_user,
             login,
             logout,
+            restore_session,
             get_setting,
             set_setting,
         ])
