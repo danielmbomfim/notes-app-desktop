@@ -2,14 +2,18 @@ cmake_minimum_required(VERSION 3.15)
 
 project(RealmRs)
 
-# Minimum C++ standard
-set(CMAKE_CXX_FLAGS "-fpermissive -Wchanges-meaning")
+set(CMAKE_CXX_FLAGS "-fpermissive")
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(CMAKE_CXX_FLAGS "-fpermissive -Wchanges-meaning")
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(REALM_CPP_NO_TESTS ON)
 
 # In a Windows install, set these compiler flags:
 if(MSVC)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:preprocessor /bigobj")
 endif()
 
 # Include the FetchContent module so you can download the C++ SDK
