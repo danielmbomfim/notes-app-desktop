@@ -17,7 +17,7 @@ jobs:
         include:
           - runs-on: ubuntu-latest
             compiler: gcc
-            gcc: 12
+            gcc: 13
 
     runs-on: ${{ matrix.platform }}
     steps:
