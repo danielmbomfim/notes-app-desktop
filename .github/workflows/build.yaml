@@ -31,16 +31,20 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf cmake
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf cmake libcurl4-openssl-dev
 
       - name: install frontend dependencies
         run: yarn install
       
-      - name: Set up GCC
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64
+      - name: Set up GCC (Linux)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+          sudo apt-get update
+          sudo apt-get install software-properties-common -y
+          sudo apt-get install gcc-13 g++-13 -y
+          sudo rm -f /usr/bin/gcc && sudo rm -f /usr/bin/g++
+          sudo ln -s /usr/bin/gcc-13 /usr/bin/gcc && sudo ln -s /usr/bin/g++-13 /usr/bin/g++
 
       - uses: tauri-apps/tauri-action@v0
         env:
