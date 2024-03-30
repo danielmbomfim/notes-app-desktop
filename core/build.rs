@@ -16,6 +16,7 @@ fn main() {
     println!("cargo:rustc-link-search=native={}/lib/", lib.display());
     println!("cargo:rustc-link-lib=curl");
     println!("cargo:rustc-link-lib=uv");
+    println!("cargo:rustc-link-lib=z");
     println!("cargo:rustc-link-lib=static=realm_rs");
 
     match profile.as_str() {
@@ -41,7 +42,10 @@ fn main() {
     cxx_build::bridge("src/lib.rs")
         .file("src/cpp/bridge.cpp")
         .include("realm_rs")
+        .include(format!("{}/include", lib.display()))
         .flag_if_supported("-std=c++17")
+        .flag_if_supported("-fpermissive")
+        .flag_if_supported("-Wchanges-meaning")
         .compile("cxx-bridge");
 
     println!("cargo:rerun-if-changed=src/lib.rs");
