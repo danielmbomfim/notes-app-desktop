@@ -22,7 +22,7 @@ Include(FetchContent)
 # Declare the version of the C++ SDK you want to download
 FetchContent_Declare(
   cpprealm
-  GIT_REPOSITORY https://github.com/danielmbomfim/realm-cpp.git
+  GIT_REPOSITORY https://github.com/danielmbb/realm-cpp.git
   GIT_TAG        "origin/main"
 )
 
