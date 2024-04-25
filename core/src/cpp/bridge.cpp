@@ -71,8 +71,8 @@ rust::Vec<RustNote> get_notes(rust::String search_text) {
 }
 
 RustNote update_note(rust::String id, rust::String title, rust::String content) {
-    std::optional<string> _title = title.empty() ? nullptr : string(title);
-    std::optional<string> _content = content.empty() ? nullptr : string(content);
+    std::optional<string> _title = title.empty() ? std::nullopt : std::optional<string> { string(title) };
+    std::optional<string> _content = content.empty() ? std::nullopt : std::optional<string> { string(content) };
 
     auto note = _update_note(string(id), _title, _content);
 

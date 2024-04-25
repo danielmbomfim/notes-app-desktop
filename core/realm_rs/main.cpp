@@ -173,7 +173,7 @@ realm::Note _update_note(std::string id, std::optional<std::string> title, std::
         note.content = content;
     });
 
-    return note.detach();
+    return _get_note(id);
 }
 
 void _delete_note(std::string id) {
